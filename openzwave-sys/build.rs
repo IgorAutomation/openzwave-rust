@@ -10,21 +10,6 @@ fn target_specific_work(_: &str) {
 
 #[cfg(target_os = "macos")]
 fn target_specific_work(openzwave_build_dir: &str) {
-    // The .a is a universal (fat) binary, so let's convert it to a thin binary
-    // There is no easy way to disable the fat binary generation in open-zwave:
-    // https://github.com/OpenZWave/open-zwave/issues/814
-    let exit_code = Command::new("lipo")
-        .current_dir(openzwave_build_dir)
-        .arg("-thin").arg("x86_64")
-        .arg("-output").arg("libopenzwave-thin.a")
-        .arg("libopenzwave.a")
-        .status()
-        .unwrap();
-
-    if !exit_code.success() {
-        panic!("Could not extract a thin library from the fat binary.");
-    }
-
     println!("cargo:rustc-link-lib=static=openzwave-thin");
     println!("cargo:rustc-link-lib=framework=IOKit");
     println!("cargo:rustc-link-lib=framework=CoreFoundation");
