@@ -10,7 +10,7 @@ fn target_specific_work(_: &str) {
 
 #[cfg(target_os = "macos")]
 fn target_specific_work(openzwave_build_dir: &str) {
-    println!("cargo:rustc-link-lib=static=openzwave-thin");
+    println!("cargo:rustc-link-lib=static=openzwave");
     println!("cargo:rustc-link-lib=framework=IOKit");
     println!("cargo:rustc-link-lib=framework=CoreFoundation");
 }
