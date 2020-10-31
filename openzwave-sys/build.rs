@@ -6,7 +6,7 @@ use std::env;
 #[cfg(target_os = "freebsd")]
 static MAKE_CMD: &str = "gmake";
 #[cfg(not(target_os = "freebsd"))]
-static MAKE_CMD: &str = "make"
+static MAKE_CMD: &str = "make";
 
 #[cfg(target_os = "linux")]
 fn target_specific_work(_: &str) {
