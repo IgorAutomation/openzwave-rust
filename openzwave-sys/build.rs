@@ -2,6 +2,12 @@ extern crate gcc;
 use std::process::Command;
 use std::env;
 
+
+#[cfg(target_os = "freebsd")]
+static MAKE_CMD: &str = "gmake";
+#[cfg(not(target_os = "freebsd"))]
+static MAKE_CMD: &str = "make"
+
 #[cfg(target_os = "linux")]
 fn target_specific_work(_: &str) {
     println!("cargo:rustc-link-lib=udev");
@@ -23,7 +29,7 @@ fn target_specific_work(_: &str) {
 }
 
 fn make(output: &str) {
-    let exit_code = Command::new("make")
+    let exit_code = Command::new(MAKE_CMD)
         .arg(format!("-j{}", env::var("NUM_JOBS").unwrap()))
         .env("top_builddir", output)
         .current_dir("open-zwave")
